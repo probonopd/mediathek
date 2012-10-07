@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 xml_file_path = "/tmp/mediathek_xml"
 max_age = 6000
@@ -73,7 +74,9 @@ def main(search_query="Wetter"):
         if search_query in line:
             # print line
             url = e.extract(line, "g")
-            outfile = url.split("/")[-1]
+            filenameorig = url.split("/")[-1]
+            suffix = url.split(".")[-1]
+            outfile = ("_".join(re.findall(r"[A-Za-z0-9üäöÜÄÖß.]*", e.extract(line, "d"))).replace("__","_").replace("__","_") + filenameorig)
             if(e.extract(line, "i") == None):
                 command = ( "flvstreamer -r '%s' -o '%s'" % (url, outfile))
             else:

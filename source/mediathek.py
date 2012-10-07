@@ -5,7 +5,7 @@ max_age = 6000
 
 from StringIO import StringIO
 from elementtree.ElementTree import ElementTree  # easy_install ElementTree works on Cloud9 :-)
-import md5, os, tempfile, time, urllib, bz2, re
+import md5, os, sys, tempfile, time, urllib, bz2, re
 
 class DiskCacheFetcher:
     """Based on http://developer.yahoo.com/python/python-caching.html"""
@@ -63,14 +63,14 @@ class Extractor:
         else:
             return None
 
-if __name__ == '__main__':
+def main(search_query="Wetter"):
     fe = Fetcher()
     if (not (os.path.exists(xml_file_path)) or (not int(time.time()) - os.path.getmtime(xml_file_path) < max_age)) :
         bz2 = fe.get_latest_bz2()
     print("starting to parse")
     e = Extractor()
     for line in open(xml_file_path):
-        if "Wetter" in line:
+        if search_query in line:
             # print line
             url = e.extract(line, "g")
             outfile = url.split("/")[-1]
@@ -82,7 +82,7 @@ if __name__ == '__main__':
             # for x in ("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"):
                 print("%s: %s") % (x, e.extract(line, x))
             print("%s") % (command)
-            print "===================\n\n"
+            print "\n===================\n"
             
 
 """
@@ -99,3 +99,9 @@ if __name__ == '__main__':
 <k>UrlThema</k>
 <l>Abo-Name</l>
 """
+
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        main(sys.argv[1])
+    else:
+        print("Usage: %s 'query string'" % (sys.argv[0]))

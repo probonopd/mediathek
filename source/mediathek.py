@@ -78,9 +78,9 @@ def main(search_query="Wetter"):
             suffix = url.split(".")[-1]
             outfile = ("_".join(re.findall(r"[A-Za-z0-9üäöÜÄÖß.]*", e.extract(line, "d"))).replace("__","_").replace("__","_") + filenameorig)
             if(e.extract(line, "i") == None):
-                command = ( "flvstreamer -r '%s' -o '%s'" % (url, outfile))
+                command = ( "flvstreamer -r '%s' -e -o '%s'" % (url, outfile))
             else:
-                command = ( "flvstreamer %s -o '%s'" % (e.extract(line, "i"), outfile))
+                command = ( "flvstreamer %s -e -o '%s'" % (e.extract(line, "i"), outfile))
             for x in ("d", "e", "f"):
             # for x in ("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"):
                 print("%s: %s") % (x, e.extract(line, x))

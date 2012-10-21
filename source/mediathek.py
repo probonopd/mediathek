@@ -1,7 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-xml_file_path = "/tmp/mediathek_xml"
+if os.path.isdir("/mnt/sdcard/mediathek/"): // Kindle Fire HD
+    xml_file_path = "/mnt/sdcard/mediathek/mediathek_xml"
+else:
+    xml_file_path = "/tmp/mediathek_xml"
+    
 max_age = 6000
 
 from StringIO import StringIO
@@ -34,20 +38,21 @@ class DiskCacheFetcher:
 class Fetcher(object):
     def get_latest_bz2(self):
         print "Refreshing cache..."
-        F = DiskCacheFetcher()
-        url = "http://zdfmediathk.sourceforge.net/update.xml"
-        F.fetch(url) # takes a really long time here
-        # print F.filepath
-        doc = ElementTree(file=F.filepath)
-        servers = []
-        for e in doc.findall('Server/Download_Filme_1'): #####
-            servers.append(e.text)
-        dates = []
-        for e in doc.findall('Server/Datum'): #####
-            dates.append(e.text)
-        assert(len(servers) == len(dates))
-        pairs = sorted(zip(servers, dates), key=lambda pair: pair[1])
-        last_url = pairs[len(pairs)-1][0]
+        #F = DiskCacheFetcher()
+        #url = "http://zdfmediathk.sourceforge.net/update.xml"
+        #F.fetch(url) # takes a really long time here
+        ## print F.filepath
+        #doc = ElementTree(file=F.filepath)
+        #servers = []
+        #for e in doc.findall('Server/Download_Filme_1'): #####
+        #    servers.append(e.text)
+        #dates = []
+        #for e in doc.findall('Server/Datum'): #####
+        #    dates.append(e.text)
+        #assert(len(servers) == len(dates))
+        #pairs = sorted(zip(servers, dates), key=lambda pair: pair[1])
+        #last_url = pairs[len(pairs)-1][0]
+        last_url = "http://176.28.14.91/mediathek1/Mediathek_21.bz2"
         F.fetch(last_url)
         print F.filepath
         f = open(xml_file_path, 'w')

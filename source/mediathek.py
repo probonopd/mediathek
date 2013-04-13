@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-if os.path.isdir("/mnt/sdcard/mediathek/"): // Kindle Fire HD
+if os.path.isdir("/mnt/sdcard/mediathek/"): // Kindle Fire HD; FIXME: add paths for other devices
     xml_file_path = "/mnt/sdcard/mediathek/mediathek_xml"
 else:
     xml_file_path = "/tmp/mediathek_xml"
